@@ -1,56 +1,36 @@
-import os from "os";
-import path from "path";
-import fs from "fs";
+import { fs, path, os } from "@tauri-apps/api";
 import uuid from "uuid";
-import storage from "electron-json-storage";
+import storage from "tauri-json-storage";
 
 // Get items from file storage
-export function getItems(prefix: string): Promise<Array<{}>> {
-  return new Promise((resolve, reject) => {
-    // Get all file names from the storage folder
-    storage.keys((error, allKeys) => {
-      if (error) reject(error);
-
-      // Find all keys that match the given prefix
-      const matchingKeys = allKeys.filter((k) => k.startsWith(prefix));
-
-      // Get all files with a matching prefix
-      storage.getMany(matchingKeys, (error, data) => {
-        if (error) reject(error);
-
-        // Resolve promise with the data loaded from the files
-        resolve(Object.values(data));
-      });
-    });
-  });
+export async function getItems(prefix: string): Promise<Array<{}>> {
+  const allKeys = await storage.keys();
+  console.log("keys", allKeys);
+  const matchingKeys = allKeys.filter((k) => k.startsWith(prefix));
+  console.log("MATCHING", matchingKeys);
+  const data = await storage.getMany(matchingKeys);
+  console.log("data", data);
+  return Object.values(data);
 }
 
 // Write an item to file storage
-export function saveItem(prefix: string, data: any) {
+export async function saveItem(prefix: string, data: any): Promise<void> {
   // create a unique id for this server
   if (!data.id) data.id = uuid.v4();
 
   // Write file
-  storage.set(prefix + data.id, data, (error) => {
-    if (error) throw error;
-  });
+  await storage.set(prefix + data.id, data);
 }
 
 // Remove item from file storage
-export function deleteItem(prefix: string, id: string) {
-  storage.remove(prefix + id, (error) => {
-    if (error) throw error;
-  });
+export async function deleteItem(prefix: string, id: string): Promise<void> {
+  await storage.remove(prefix + id);
 }
 
 // Set up storage dir
-export function initStorage(userData: string) {
+export async function initStorage(userData: string): Promise<void> {
   // Deal with persisting server data
-
-  const storageDir = path.join(userData, "storage");
-
-  if (!fs.existsSync(storageDir)) {
-    fs.mkdirSync(storageDir, { recursive: true });
-  }
-  storage.setDataPath(storageDir);
+  console.log("APP DIR", userData);
+  const storageDir = await path.join(userData, "storage");
+  await storage.setDataPath(storageDir);
 }

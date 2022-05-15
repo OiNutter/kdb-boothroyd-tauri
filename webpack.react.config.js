@@ -9,9 +9,15 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     mainFields: ["main", "module", "browser"],
+    fallback: {
+      path: require.resolve("path-browserify"),
+      events: require.resolve("events/"),
+      assert: require.resolve("assert/"),
+      util: require.resolve("util/"),
+    },
   },
   entry: "./src/index.tsx",
-  target: "electron-renderer",
+  //target: "electron-renderer",
   devtool: "source-map",
   module: {
     rules: [

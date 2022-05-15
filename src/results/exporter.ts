@@ -1,6 +1,6 @@
-import { fstat, pathExists } from "fs-extra";
+//import { fstat, pathExists } from "fs-extra";
 import XLSX from "xlsx";
-import * as fs from "fs";
+//import * as fs from "fs";
 
 export enum ExportFormat {
   csv = "csv",
@@ -41,7 +41,7 @@ export default class Exporter {
 
   static cleanup(file: string) {
     if (file.startsWith("file://")) {
-      fs.rm(file.replace(/^file\:\/\//, ""), () => {});
+      //fs.rm(file.replace(/^file\:\/\//, ""), () => {});
     }
   }
 
@@ -93,7 +93,8 @@ export default class Exporter {
     let content =
       "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8,";
     XLSX.writeFile(wb, "download.xlsx");
-    return "file://" + fs.realpathSync("download.xlsx");
+    //return "file://" + fs.realpathSync("download.xlsx");
+    return "file://download.xlsx";
   };
 
   private static _concatData: (data: any[], separator?: string) => string = (
