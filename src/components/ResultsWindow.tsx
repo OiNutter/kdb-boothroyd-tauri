@@ -17,7 +17,6 @@ import {
 import { getFileTypeIconProps } from "@fluentui/react-file-type-icons";
 import { AgGridReact } from "ag-grid-react";
 import { GridReadyEvent, GridApi } from "ag-grid-community";
-import { ipcRenderer } from "electron";
 
 import {
   agWrapper,
@@ -112,6 +111,8 @@ const ResultsWindow: FunctionComponent<ResultsWindowProps> = ({
     ];
   }
 
+  // TODO: update ipcRenderer calls
+  /*
   ipcRenderer.invoke("is-dark-mode").then((isDarkMode) => {
     setIsDarkMode(isDarkMode);
   });
@@ -130,7 +131,7 @@ const ResultsWindow: FunctionComponent<ResultsWindowProps> = ({
         .removeAllListeners("colour-scheme-changed")
         .removeAllListeners("download-complete");
     };
-  }, []);
+  }, []);*/
 
   const farItems: ICommandBarItemProps[] = [
     {
@@ -149,9 +150,11 @@ const ResultsWindow: FunctionComponent<ResultsWindowProps> = ({
       onClick: () => {
         const file = Exporter.export(currentResults!, ExportFormat.xlsx);
         if (file) {
+          // TODO: update ipcRender call
+          /*
           ipcRenderer.send("open-file", {
             url: file,
-          });
+          });*/
         }
       },
     },
@@ -169,12 +172,14 @@ const ResultsWindow: FunctionComponent<ResultsWindowProps> = ({
               item.key as ExportFormat
             );
             if (file) {
+              // TODO: update ipcRenderer call
+              /*
               ipcRenderer.send("download", {
                 url: file,
                 properties: {
                   saveAs: true,
                 },
-              });
+              });*/
             }
           }
         },

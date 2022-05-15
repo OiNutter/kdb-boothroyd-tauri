@@ -10,10 +10,9 @@ import {
   Stack,
   useTheme,
 } from "@fluentui/react";
-import { ipcRenderer } from "electron";
 import React, { FC, useState } from "react";
 import { useEffect } from "react";
-import KdbConnection from "../server/kdb-connection";
+//import KdbConnection from "../server/kdb-connection";
 import path from "path";
 import { container, pivotClose, pivots, serverModal } from "../style";
 import Server from "../types/server";
@@ -24,7 +23,7 @@ import ServerInterface from "./ServerInterface";
 import uuid from "uuid";
 
 interface ConnectionTab {
-  connection: KdbConnection;
+  connection: any; //KdbConnection;
   filename?: string;
   name?: string;
   id: string;
@@ -50,14 +49,14 @@ const MainInterface: FC = () => {
   useEffect(() => {
     const connection = connections.find((c) => c.id === currentConnection);
     if (connection) {
-      ipcRenderer.send(
+      /*ipcRenderer.send(
         "update-title",
         `${titleForTab(connection)} ${connection.unsavedChanges ? "*" : ""}`
-      );
+      );*/
     }
   }, [currentConnection, connections]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     ipcRenderer.on("show-error", (_, error: string) => {
       setErrorMessage(error);
       setShowError(true);
@@ -67,6 +66,7 @@ const MainInterface: FC = () => {
       ipcRenderer.removeAllListeners("show-error");
     };
   }, []);
+  */
 
   useEffect(() => {
     const index = connections.findIndex((c) => c.id === currentConnection);

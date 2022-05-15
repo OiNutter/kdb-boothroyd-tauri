@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import MonacoEditor, { monaco } from "react-monaco-editor";
-import { ipcRenderer } from "electron";
+//import { ipcRenderer } from "electron";
 import {
   CommandBar,
   useTheme,
@@ -60,13 +60,14 @@ const EditorWindow: FunctionComponent<EditorWindowProps> = ({
   // Find out if system is in dark mode so we can use the appropriate editor theme
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // TODO: update ipcRenderer calls
   // Check current theme
-  ipcRenderer.invoke("is-dark-mode").then((isDarkMode) => {
+  /*ipcRenderer.invoke("is-dark-mode").then((isDarkMode) => {
     setIsDarkMode(isDarkMode);
-  });
+  });*/
 
   // Handle theme updates
-  useEffect(() => {
+  /*useEffect(() => {
     ipcRenderer
       .on("colour-scheme-changed", (_, isDarkMode) => {
         setIsDarkMode(isDarkMode);
@@ -83,7 +84,7 @@ const EditorWindow: FunctionComponent<EditorWindowProps> = ({
         .removeAllListeners("colour-scheme-changed")
         .removeAllListeners("file-opened");
     };
-  }, []);
+  }, []);*/
 
   // Store a reference we can use to target the run script button
   const goRef = createRef<HTMLButtonElement>();
@@ -160,7 +161,8 @@ const EditorWindow: FunctionComponent<EditorWindowProps> = ({
   }
 
   async function loadScript() {
-    const result = await ipcRenderer.invoke("load-script");
+    // TODO: update ipcRenderer call
+    /* const result = await ipcRenderer.invoke("load-script");
     if (result) {
       const { data, filename } = result;
       setCurrentScript(data);
@@ -168,28 +170,30 @@ const EditorWindow: FunctionComponent<EditorWindowProps> = ({
       onUnsavedChangesChanged(false);
       editorRef.current?.setValue(data);
       onFilenameChanged(filename);
-    }
+    }*/
   }
 
   async function saveScript() {
-    const savedFilename = await ipcRenderer.invoke(
+    // TODO: update ipcRenderer call
+    /*const savedFilename = await ipcRenderer.invoke(
       "save-script",
       currentScript,
       filename
     );
     savedScript.current = currentScript;
     onUnsavedChangesChanged(false);
-    onFilenameChanged(savedFilename);
+    onFilenameChanged(savedFilename);*/
   }
 
   async function saveScriptAs() {
-    const savedFilename = await ipcRenderer.invoke(
+    // TODO: update ipcRenderer call
+    /*const savedFilename = await ipcRenderer.invoke(
       "save-script",
       currentScript
     );
     savedScript.current = currentScript;
     onUnsavedChangesChanged(false);
-    onFilenameChanged(savedFilename);
+    onFilenameChanged(savedFilename);*/
   }
 
   // Send our commands to the server
